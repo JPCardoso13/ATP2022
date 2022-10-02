@@ -1,0 +1,123 @@
+import random
+
+def jogo():
+
+    print("""Bem-vindo ao jogo Adivinha o Número! Seleciona o modo de jogo que queres jogar!
+Escreve a letra a: Adivinha o número! // Escreve a letra b: Desafia o computador!""")
+    modo_de_jogo = input("Escreve a letra a: Adivinha o número! // Escreve a letra b: Desafia o computador!")
+
+    if modo_de_jogo != "a" and modo_de_jogo != "b":
+        while modo_de_jogo != "a" and modo_de_jogo != "b":
+            print("Tens de escolher entre a e b!")
+            modo_de_jogo = input("Escreve a letra a: Adivinha o número! // Escreve a letra b: Desafia o computador!")
+            
+    if modo_de_jogo == "a":
+        print("Adivinha o número em que o computador está a pensar! (Entre 0 e 100)")
+        numero_gerado = random.randint(0,100)
+        numero_de_tentativas = 0
+
+        while True:
+
+            try:
+                adivinha = int(input("Adivinha o número do computador!"))
+                if adivinha > 100 or adivinha < 0:
+                    while adivinha > 100 or adivinha < 0:
+                        print("A tua resposta é inválida. Tens de escolher um número entre 0 e 100.")
+                        adivinha = int(input("Adivinha o número do computador!"))
+
+            except ValueError:
+                print("A tua resposta é inválida. Tens de escolher um número entre 0 e 100.")
+                continue
+
+            else:
+                break
+
+        while adivinha != numero_gerado:
+
+            if adivinha > numero_gerado:
+                print("O número em que pensei é mais pequeno! Tenta novamente!")
+                adivinha = int(input("O número em que pensei é mais pequeno. Tenta novamente!"))
+                numero_de_tentativas = numero_de_tentativas + 1
+
+            if adivinha < numero_gerado:
+                print("O número em que pensei é maior! Tenta novamente!")
+                adivinha = int(input("O número em que pensei é maior. Tenta novamente!"))
+                numero_de_tentativas = numero_de_tentativas + 1
+
+        if adivinha == numero_gerado:
+            numero_de_tentativas = numero_de_tentativas + 1
+            print("Bom trabalho! Adivinhaste o número em que pensei (", numero_gerado, ") em", numero_de_tentativas, "tentativa(s)!")
+
+    if modo_de_jogo == "b":
+        print("Escolhe um número entre 0 e 100, eu tentarei adivinhá-lo!")
+
+        while True:
+
+            try:
+                numero_escolhido = int(input("Escolhe um número entre 0 e 100!"))
+                if numero_escolhido > 100 or numero_escolhido < 0:
+                    while numero_escolhido > 100 or numero_escolhido < 0:
+                        print("A tua resposta é inválida. Tens de escolher um número entre 0 e 100.")
+                        numero_escolhido = int(input("Escolhe um número entre 0 e 100!"))
+
+            except ValueError:
+                print("A tua resposta é inválida. Tens de escolher um número entre 0 e 100.")
+                continue
+
+            else:
+                break
+
+        numero_de_tentativas_pc = 0
+        min = 0
+        max = 100
+        adivinha_do_pc = (min+max) // 2
+        print("Eu acho que o teu número é o", adivinha_do_pc, "! Acertei?")
+        print("Acertei: Escreve c // O teu número é maior: Escreve m // O teu número é menor: Escreve n.")
+        feedback = input("Acertei: Escreve c // O teu número é maior: Escreve m // O teu número é menor: Escreve n.")
+
+        if feedback != "c" and feedback != "m" and feedback!= "n":
+            while feedback != "c" and feedback != "m" and feedback != "n":
+                print("Tens de escolher entre c, m ou n!")
+                feedback = input("Acertei: Escreve c // O teu número é maior: Escreve m // O teu número é menor: Escreve n.")
+
+        while feedback != "c":
+
+            if feedback == "m":
+                min = adivinha_do_pc
+                adivinha_do_pc = (min+max) // 2
+                numero_de_tentativas_pc = numero_de_tentativas_pc + 1
+                print("Eu acho que o teu número é o", adivinha_do_pc, "! Acertei?")
+                print("Acertei: Escreve c // O teu número é maior: Escreve m // O teu número é menor: Escreve n.")
+                feedback = input("Acertei: Escreve c // O teu número é maior: Escreve m // O teu número é menor: Escreve n.")
+
+            if feedback == "n":
+                max = adivinha_do_pc
+                adivinha_do_pc = (min+max) // 2
+                numero_de_tentativas_pc = numero_de_tentativas_pc + 1
+                print("Eu acho que o teu número é o", adivinha_do_pc, "! Acertei?")
+                print("Acertei: Escreve c // O teu número é maior: Escreve m // O teu número é menor: Escreve n.")
+                feedback = input("Acertei: Escreve c // O teu número é maior: Escreve m // O teu número é menor: Escreve n.")
+
+        if feedback == "c":
+            numero_de_tentativas_pc = numero_de_tentativas_pc + 1
+            print("Adivinhei o teu número (" , numero_escolhido, ") em", numero_de_tentativas_pc, "tentativa(s)!")
+
+while True:
+
+        jogo()
+        print("""Foi um prazer jogar contigo! 
+Gostarias de jogar novamente?
+Sim: escreve s. // Não: Escreve n.""")
+        restart = input("Gostarias de jogar novamente? (Sim: escreve s. // Não: Escreve n.)")
+
+        if restart != "s" and restart != "n":
+            while restart != "s" and restart != "n":
+                print("Tens de escolher entre s ou n!")
+                restart = input("Gostarias de jogar novamente? (Sim: escreve s. // Não: Escreve n.)")
+
+        if restart == "n":
+            print("Até a próxima!")
+            break
+
+        elif restart == 's':
+            continue
