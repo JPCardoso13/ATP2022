@@ -1,0 +1,227 @@
+import random
+
+
+### Funções ###
+
+
+# Operação 1: Criar lista de valores aleatórios.
+
+def GerarLista(num_elementos):
+   
+    lista = []
+
+    while len(lista) < num_elementos:
+            elemento = random.randint(1,100)
+            lista.append(elemento) 
+        
+    print("Foi gerada a seguinte lista de", num_elementos, "elemento(s) aleatório(s) entre 0 e 100:", lista, ".")
+
+    return lista
+
+# Operação 2: Criar lista com números introduzidos pelo utilizador.
+
+def LerLista(num_elementos):
+
+    lista = []
+    y = num_elementos    
+
+    while num_elementos > 0:
+        x = y - num_elementos + 1
+        print("Escolhe o " + str(x) + "º elemento da tua lista.")
+        elemento = int(input("Escolhe o próximo elemento da tua lista."))
+        lista.append(elemento)
+        num_elementos = num_elementos - 1
+
+    print("Criaste a seguinte lista de", y, "elemento(s):", lista, ".")
+
+    return lista
+
+# Operação 3: Somar os elementos da lista.
+
+def SomaLista(lista):
+
+    soma = 0
+
+    for n in lista:
+        soma = soma + n
+    
+    return soma
+
+# Operação 4: Média dos elementos da lista.
+
+def MediaLista(lista):
+
+    return SomaLista(lista)/len(lista)
+
+# Operação 5: Maior elemento da lista.
+
+def MaiorDaLista(lista):
+
+    maior = lista[0]
+   
+    for n in lista[1:]:
+        if n > maior:
+            maior = n
+
+    return maior
+
+# Operação 6: Menor elemento da lista.
+
+def MenorDaLista(lista):
+
+    menor = lista[0]
+   
+    for n in lista[1:]:
+        if n < menor:
+            menor = n
+
+    return menor
+
+# Operação 7: Lista está ordenada por ordem crescente? Sim/Não.
+
+def OrdemCrescente(lista):
+
+    anterior = lista[0]
+    resposta = True
+
+    for n in lista:
+        if n < anterior:
+            resposta = False   
+        anterior = n
+
+    if resposta == True:
+        resposta = "Sim. (Lista ordenada por ordem crescente)"
+        
+    else:
+        resposta = "Não. (Lista não ordenada por ordem crescente)"
+
+    return resposta
+
+# Operação 8: Lista está ordenada por ordem decrescente? Sim/Não.
+
+def OrdemDecrescente(lista):
+
+    anterior = lista[0]
+    resposta = True
+
+    for n in lista:
+        if n > anterior:
+            resposta = False   
+        anterior = n
+
+    if resposta == True:
+        resposta = "Sim. (Lista ordenada por ordem decrescente)"
+        
+    else:
+        resposta = "Não. (Lista não ordenada por ordem decrescente)"
+
+    return resposta
+
+# Operação 9: Encontar elemento na lista e devolver posição.
+
+def EncontrarElemento(lista, elemento):
+
+    pesquisa = False
+
+    if elemento in lista:
+        pos = lista.index(elemento) + 1
+        pesquisa = True  
+    else:
+        pesquisa = False
+
+    if pesquisa == True:
+        pesquisa = "O número procurado (" + str(elemento) + ") está na " + str(pos) + "ª posição da lista."
+    else:
+        pesquisa = "O número procurado (" + str(elemento) + ") não está na lista."
+
+    return pesquisa 
+
+
+### Aplicação ### 
+
+
+def Menu():
+
+    print("""Operações possíveis:
+* (1) Criar Lista; 
+* (2) Ler Lista;
+* (3) Soma;
+* (4) Média;
+* (5) Maior;
+* (6) Menor;
+* (7) Está ordenada por ordem crescente?;
+* (8) Está ordenada por ordem decrescente?;
+* (9) Procura um elemento;
+* (0) Sair.""")
+
+lista = [] # Variável interna.
+print("Bem-vindo! Por favor insere o número correspondente à operação que desejas efetuar.")
+Menu()
+escolha = input("Por favor insere o número correspondente à operação que desejas efetuar.")
+
+while escolha != "0":
+
+    if escolha == "1":
+
+        while True:
+
+            try:
+                print("Escreve o número de elementos que desejas para a tua lista.")
+                lista = GerarLista(num_elementos = int(input("Insere o número de elementos da tua lista.")))
+                break
+            
+            except ValueError:
+                print("Tens de inserir valores numéricos. Vamos começar novamente.")
+                continue
+
+    elif escolha == "2":
+
+        while True:
+
+            try:
+                print("Escreve o número de elementos que desejas para a tua lista.")
+                lista = LerLista(num_elementos = int(input("Insere o número de elementos da tua lista.")))
+                break
+
+            except ValueError:
+                print("Tens de inserir valores numéricos. Vamos começar novamente.")
+                continue
+
+    elif escolha == "3":
+        print("A soma dos elementos da lista é", SomaLista(lista), ".")
+
+    elif escolha == "4":
+        print("A média dos números da lista é", MediaLista(lista), ".")
+    
+    elif escolha == "5":
+        print("O maior elemento da lista é o", MaiorDaLista(lista), ".")
+    
+    elif escolha == "6":
+        print("O menor elemento da lista é o", MenorDaLista(lista), ".")
+
+    elif escolha == "7":
+        print(OrdemCrescente(lista))
+
+    elif escolha == "8":
+        print(OrdemDecrescente(lista))
+    
+    elif escolha == "9":
+
+        while True:
+
+            try:
+                print("Introduz o elemento que pretendes procurar na lista.")
+                print(EncontrarElemento(lista, elemento = int(input("Introduz o elemento que pretendes procurar na lista."))))
+                break
+
+            except ValueError:
+                print("Tens de inserir valores numéricos. Vamos começar novamente.")
+                continue
+
+    else:
+        print("Tens de escolher entre os números do menu.")
+
+    Menu()
+    escolha = input("Por favor insere o número correspondente à operação que desejas efetuar.")
+
+print("Obrigado por utilizares a aplicação. Até a próxima!")
