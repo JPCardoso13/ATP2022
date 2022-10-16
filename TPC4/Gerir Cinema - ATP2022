@@ -1,0 +1,290 @@
+### Funções Primárias ###
+
+
+# Menu:
+
+def menu():
+
+    print("""
+MENU:
+* (1) - Criar Sala
+* (2) - Eliminar Sala
+* (3) - Listar Filmes
+* (4) - Verificar Disponibilidade
+* (5) - Listar Disponibilidades
+* (6) - Vender Bilhete
+* (7) - Anular Venda
+* (8) - Reset
+* (9) - Ajuda
+* (0) - Sair
+""")
+
+# (1) Criar Sala:
+
+def InserirSala (cinema, sala):
+        
+    if sala[2] not in listafilmes: 
+        cinema.append(sala)
+        print("Criou uma sala de", sala[0], "lugares para a reprodução do filme:", sala[2], "( Sala número", (cinema.index(sala) + 1), ")")
+        listafilmes.append(sala[2])
+    else:
+        print("O filme escolhido já está a ser reproduzido noutra sala.")
+
+    return cinema
+
+# (2) Eliminar Sala:
+
+def EliminarSala (cinema):
+
+    if cinema == []:
+        print("Ainda não foi criada nenhuma sala.")
+
+    else:
+        eliminar = int(input("Escreva o número da sala que pretende eliminar"))
+
+        while eliminar <= 0:
+            print("Não há salas com número inferior a 1.")
+            eliminar = int(input("Escreva o número da sala que pretende eliminar"))
+
+        if eliminar <= len(cinema):
+            cinema.remove(cinema[eliminar-1])
+            print("A sala número", eliminar, "foi eliminada. (Todas as salas seguintes à eliminada desceram um número)")
+
+    return cinema
+
+# (3) Listar Filmes:
+
+def Listar (cinema):
+
+    numsala = 0
+
+    if cinema == []:
+        print("Não há filmes em exibição.")
+
+    else:
+        print("Número da Sala // Filme em Exibição")
+
+        for sala in cinema:
+            numsala = numsala + 1
+            print("      ", numsala, "      //   ", sala[2])
+
+    return cinema
+
+# (4) Verificar Disponibilidade:
+
+def Disponivel (cinema, filme, lugar):
+
+    disponivel = False
+
+    if cinema == []:
+        print("Não há filmes em exibição.")
+
+    else:
+    
+        for sala in cinema:
+
+            if filme == sala[2]:
+
+                if lugar <= sala[0]:
+
+                    if lugar not in sala[1]:
+                        disponivel = True
+                    
+                else:
+                    print("O lugar que escolheu excede o número de lugares desta sala.")
+        
+            else:
+                print("O filme não está a ser exibido. (Verifique erros de escrita)")
+            
+    return disponivel
+
+# (5) Listar Disponibilidades:
+
+def ListarDisponibilidades (cinema):
+
+    numsala = 0
+
+    if cinema == []:
+        print("Não há filmes em exibição.")
+
+    else:
+        print("Número da Sala // Filme em Exibição // Lugares Disponíveis")
+
+        for sala in cinema:
+            numsala = numsala + 1
+            print("      ", numsala, "      //   ", sala[2], "    //        ", sala[0] - len(sala[1]))
+
+    return cinema
+
+# (6) Vender Bilhete:
+
+def VenderBilhete (cinema, filme, lugar):
+
+    disponivel = False
+
+    if cinema == []:
+        print("Não há filmes em exibição.")
+
+    else:
+        for sala in cinema:
+
+            if filme == sala[2]:
+
+                if lugar <= sala[0]:
+
+                    if lugar not in sala[1]:
+                        disponivel = True
+
+                        if disponivel:
+                            sala[1].append(lugar)
+                            print("Foi vendido um bilhete para o lugar", lugar, "do filme:", filme,".")
+                    
+                        else:
+                            print("O bilhete para o lugar selecionado já foi vendido.")
+                    
+                else:
+                    print("O lugar que escolheu excede o número de lugares desta sala.")
+        
+            else:
+                print("O filme não está a ser exibido. (Verifique erros de escrita)")
+            
+    return cinema
+
+# (7) Anular Venda:
+
+def AnularVenda (cinema, filme, lugar):
+
+    if cinema == []:
+        print("Não há filmes em exbição.")
+
+    else:
+        for sala in cinema:
+
+            if filme == sala[2]:
+
+                if lugar <= sala[0]:
+
+                    if lugar in sala[1]:
+                        sala[1].remove(lugar)
+                        print("Foi anulada a venda do bilhete para o lugar", lugar, "do filme:", filme,".")
+
+                else:
+                    print("O lugar que escolheu excede o número de lugares desta sala.")
+
+            else:
+                print("O filme não está a ser exibido. (Verifique erros de escrita)")
+
+    return cinema
+
+# (8) Reset:
+
+def Reset (cinema):
+
+    cinema.clear()
+    listafilmes.clear()
+    print("Todas as salas foram eliminadas.")
+
+    return cinema
+
+# (9) Ajuda:
+
+def Ajuda ():
+
+    print("""MENU DE AJUDA:
+* (1) - Criar Sala: Cria uma nova sala no cinema;
+* (2) - Eliminar Sala: Elimina uma sala do cinema;
+* (3) - Listar Filmes: Lista os filmes em exibição no cinema;
+* (4) - Verificar Disponibilidade: Verifica a disponibilidade de um lugar, respondendo com um booleano (True/False);
+* (5) - Listar Disponibilidades: Lista os lugares disponíveis nas salas do cinema;
+* (6) - Vender Bilhete: Vende um bilhete para um lugar escolhido pelo utilizador;
+* (7) - Anular Venda: Anula a venda de um bilhete, libertando o lugar escolhido para nova venda;
+* (8) - Reset: Elimina todas as salas do cinema;
+* (9) - Ajuda: Abre o menu de ajuda;
+* (0) - Sair: Fecha a aplicação.""")
+
+
+### Funções Secundárias ###
+
+
+# Sala:
+
+def Sala ():
+
+    nlugares = int(input("Por favor insira o número de lugares da sua sala: "))
+
+    while nlugares <= 0:
+        print("O número de lugares inserido é inválido.")
+        nlugares = int(input("Por favor insira o número de lugares da sua sala: "))
+    
+    vendidos = []
+    filme = input("Por favor escreva o nome do filme a exibir: ")
+    sala = (nlugares, vendidos, filme)
+
+    return sala
+
+# Filme Input:
+
+def FilmeInput ():
+
+    filme = input("Insira o título do filme: ")
+
+    return filme
+
+# Lugar Input:
+
+def LugarInput ():
+
+    lugar = int(input("Insira o número do lugar: "))
+
+    while lugar <= 0:
+        print("O número do lugar inserido é inválido.")
+        lugar = int(input("Insira o número do lugar: "))
+
+    return lugar
+
+
+### Aplicação ###
+
+
+print("Bem-vindo! Por favor selecione a opção desejada.")
+menu()
+escolha = input("Insira o número do menu correspondente à sua escolha: ")
+cinema = []
+listafilmes = []
+
+while escolha != "0":
+
+    if escolha == "1":
+        InserirSala(cinema, sala = Sala())    
+
+    elif escolha == "2":
+        EliminarSala(cinema)
+
+    elif escolha == "3":
+        Listar(cinema)
+
+    elif escolha == "4":
+        print(Disponivel(cinema, filme = FilmeInput(), lugar = LugarInput()))
+
+    elif escolha == "5":
+        ListarDisponibilidades(cinema)
+
+    elif escolha == "6":
+        VenderBilhete(cinema, filme = FilmeInput(), lugar = LugarInput())
+
+    elif escolha == "7":
+        AnularVenda(cinema, filme = FilmeInput(), lugar = LugarInput())
+
+    elif escolha == "8":
+        Reset(cinema)
+
+    elif escolha == "9":
+        Ajuda()
+
+    else:
+        print("Tem de escolher uma das opções do menu.")
+
+    menu()
+    escolha = input("Por favor insira o número correspondente à sua escolha: ")
+
+print("Obrigado por utilizar a aplicação. Até a próxima!")
