@@ -1,0 +1,304 @@
+import matplotlib.pyplot as plt
+
+
+# Importar Dataset:
+
+def importarDataset():
+
+    dados = []
+    dataset = open("myheart.csv", "r")
+    linha = dataset.readline()
+
+    for linha in dataset:
+        pessoaElem = linha.split(",")
+        ultimoElem = pessoaElem[5].strip("\n")
+        pessoa = (int(pessoaElem[0]), pessoaElem[1], int(pessoaElem[2]), int(pessoaElem[3]), int(pessoaElem[4]), ultimoElem[0])
+        dados.append(pessoa)
+    
+    dataset.close()
+
+    return dados
+
+
+### ---------- Criar Dicionários ---------- ###
+
+
+# Distribuição p/ Sexo:
+
+def criaDicSexo(dados):
+
+    dicSexo = {}
+
+    for pessoa in dados:
+        
+        if pessoa[5] == "1" and pessoa[1] in dicSexo.keys():
+            dicSexo[pessoa[1]] = dicSexo[pessoa[1]] + 1
+
+        elif pessoa[5] == "1" and pessoa[1] not in dicSexo.keys():
+            dicSexo[pessoa[1]] = 1
+
+    return dicSexo
+
+
+# Distribuição p/ Escalão Etário:
+
+def criaDicEscEt(dados):
+
+    dicEscEt = {}
+
+    for pessoa in dados:
+
+        if pessoa[5] == "1" and pessoa[0] in dicEscEt.keys():
+            dicEscEt[pessoa[0]] = dicEscEt[pessoa[0]] + 1
+
+        elif pessoa[5] == "1" and pessoa[0] not in dicEscEt.keys():
+            dicEscEt[pessoa[0]] = 1
+
+    return dicEscEt
+
+
+# Distribuição p/ Níveis de Colesterol:
+
+def criaDicColesterol(dados):
+
+    dicColesterol = {}
+
+    for pessoa in dados:
+
+        if pessoa[5] == "1" and pessoa[3] in dicColesterol.keys():
+            dicColesterol[pessoa[3]] = dicColesterol[pessoa[3]] + 1
+
+        elif pessoa[5] == "1" and pessoa[0] not in dicColesterol.keys():
+            dicColesterol[pessoa[3]] = 1
+
+    return dicColesterol
+
+
+### ---------- Criar Tabelas ---------- ###
+
+
+# Distribuição p/ Sexo:
+
+def distribSexoTabela(dados):
+
+    dicSexo = criaDicSexo(dados)
+
+    print("Mulheres Doentes | Homens Doentes")
+    print("=================================")
+    print("       ", dicSexo["F"], "      |      ", dicSexo["M"])
+        
+    return dicSexo
+
+
+# Distribuição p/ Escalão Etário:
+
+def distribEscEtTabela(dados):
+
+    dicEscEt = criaDicEscEt(dados)
+
+    keys = list(dicEscEt.keys())
+    keys.sort()
+    i = 0
+    print("Escalão Etário | Doentes")
+    print("========================")
+
+    while i <= keys[-1]:
+        doentes = 0
+        
+        for n in range(0,5):
+            doentes = doentes + dicEscEt.get(i + n, 0)
+
+        if doentes != 0:
+            print(f"   [{i} - {i + 4}]   |   {doentes}")
+
+        i = i + 5
+
+    return dicEscEt
+
+
+# Distribuição p/ Níveis de Colesterol:
+
+def distribColesterolTabela(dados):
+
+    dicColesterol = criaDicColesterol(dados)
+
+    keys = list(dicColesterol.keys())
+    keys.sort()
+    i = 0
+    print("Nível de Colesterol | Doentes")
+    print("=============================")
+
+    while i <= keys[-1]:
+        doentes = 0
+        
+        for n in range(0,10):
+            doentes = doentes + dicColesterol.get(i + n, 0)
+
+        if doentes != 0:
+            print(f"     [{i} - {i + 9}]    |    {doentes}")
+
+        i = i + 10
+
+    return dicColesterol
+
+
+### ---------- Criar Gráficos ---------- ###
+
+
+# Distribuição p/ Sexo:
+
+def distribSexoGraph(dados):
+
+    dicSexo = criaDicSexo(dados)
+
+    left = [1,2]
+    height = [dicSexo['F'],dicSexo['M']]
+    tick_label = ['Feminino', 'Masculino']
+
+    plt.bar (left, height, tick_label = tick_label, width = 0.5, color = ['pink', 'lightblue'])
+    plt.xlabel('Sexo')
+    plt.ylabel('Número de Doentes')
+    plt.title('Distribuição da Doença por Sexo')
+    plt.show()
+
+
+# Distribuição p/ Escalão Etário:
+
+def distribEscEtGraph(dados):
+
+    dicEscEt = criaDicEscEt(dados)
+    
+    left = []
+    height = []
+    tick_label = []
+
+    keys = list(dicEscEt.keys())
+    keys.sort()
+    i = 0
+    y = 0
+
+    while i <= keys[-1]:
+        doentes = 0
+        
+        for n in range(0,5):
+            doentes = doentes + dicEscEt.get(i + n, 0)
+
+        if doentes != 0:
+            y = y + 1
+            left.append(y)
+            height.append(doentes)
+            intervalo = f"[{i}-{i + 4}]"
+            tick_label.append(intervalo)
+        
+        i = i + 5
+
+    plt.bar (left, height, tick_label = tick_label, width = 0.5, color = ['lightgreen'])
+    plt.xlabel('Escalão Etário')
+    plt.ylabel('Número de Doentes')
+    plt.title('Distribuição da Doença por Escalão Etário')
+    plt.show()
+
+
+# Distribuição p/ Níveis de Colesterol:
+
+def distribColesterolGraph(dados):
+
+    dicColesterol = criaDicColesterol(dados)
+    
+    left = []
+    height = []
+    tick_label = []
+
+    keys = list(dicColesterol.keys())
+    keys.sort()
+    i = 0
+    y = 0
+
+    while i <= keys[-1]:
+        doentes = 0
+        
+        for n in range(0,10):
+            doentes = doentes + dicColesterol.get(i + n, 0)
+
+        if doentes != 0:
+            y = y + 1
+            left.append(y)
+            height.append(doentes)
+            intervalo = f"[{i}-{i + 9}]"
+            tick_label.append(intervalo)
+        
+        i = i + 10
+
+    plt.bar (left, height, tick_label = tick_label, width = 0.5, color = ['orange'])
+    plt.xlabel('Nível de Colesterol')
+    plt.ylabel('Número de Doentes')
+    plt.title('Distribuição da Doença por Níveis de Colesterol')
+    plt.show()
+
+
+### ---------- Estruturar Aplicação ---------- ###
+
+
+# Menu:
+
+def menu():
+
+    print("""
+MENU
+> > > Tabelas Disponíveis:
+* (1) - Distribuição da doença por sexo
+* (2) - Distribuição da doença por escalões etários
+* (3) - Distribuição da doença por níveis de colesterol
+=======================================================
+> > > Gráficos de Barras Disponíveis:
+* (4) - Distribuição da doença por sexo
+* (5) - Distribuição da doença por escalões etários
+* (6) - Distribuição da doença por níveis de colesterol
+(Nota: Não é possível visualizar os nomes das barras do
+gráfico 6.)
+=======================================================
+> > > Outro:
+* (0) - Fechar Aplicação
+""")
+
+
+# Aplicação:
+
+def aplicacao():    
+
+    importarDataset()
+    print("Bem-vindo! Por favor selecione a opção desejada.")
+    menu()
+    escolha = input("Selecione a opção desejada: ")
+
+    while escolha != "0":
+
+        if escolha == "1":
+            distribSexoTabela(importarDataset())
+
+        elif escolha == "2":
+            distribEscEtTabela(importarDataset())
+
+        elif escolha == "3":
+            distribColesterolTabela(importarDataset())
+
+        elif escolha == "4":
+            distribSexoGraph(importarDataset())
+
+        elif escolha == "5":
+            distribEscEtGraph(importarDataset())
+        
+        elif escolha == "6":
+            distribColesterolGraph(importarDataset()) 
+
+        else:
+            print("Tem de selecionar uma das opções possíveis.")
+
+        menu()
+        escolha = input("Selecione a opção desejada: ")
+
+    print("Obrigado por utilizar a aplicação.")
+
+# Correr a Aplicação:
+
+aplicacao()
