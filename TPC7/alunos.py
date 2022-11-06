@@ -74,16 +74,18 @@ def detEscalao(dados):
 
     for i in range(0, len(dados)):
 
+        flag = True
         min = 0
         max = 4
         n = 4
 
-        while n >= 0:
+        while flag:
 
             if min <= round(float(dados[i][7])) <= max:
                 aluno = list(dados[i])
                 aluno.append(string.ascii_uppercase[n])
                 dados[i] = tuple(aluno)
+                flag = False
 
             min = max + 1
             max = max + 4
