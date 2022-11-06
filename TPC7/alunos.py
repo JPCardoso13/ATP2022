@@ -148,4 +148,4 @@ def criaGraf(distrib):
 def criaTab(distrib):
     
     for key in distrib:
-        print(f'| {key:^13} | {distrib[key]:^14} |')
+        print(f'| {key:^13} | {distrib[key]:^14} |') # Título das colunas da tabela definido em main.py
