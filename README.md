@@ -2,4 +2,4 @@
 
 **João Cardoso (A101400)**
 
-Repositório referente à unidade curricular "Algoritmos e Técnicas de Programação".
+Repositório referente à submissão dos TPC's da unidade curricular "Algoritmos e Técnicas de Programação".
